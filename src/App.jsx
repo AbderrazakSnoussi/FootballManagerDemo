@@ -1,28 +1,19 @@
-import './App.css';
-import ReactDOM from 'react-dom';
-import React, { useState, useEffect } from 'react';
-import TeamTable from './TeamTable';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import MainPage from './MainPage';
+import TeamSelection from './TeamSelection';
+import TeamPage from './TeamPage';
 
-const App = () => {
-  const [teams, setTeams] = useState([]);
-
-  useEffect(() => {
-    async function fetchTeams() {
-      const response = await fetch('./api/teams');
-      const data = await response.json();
-      setTeams(data);
-    }
-
-    fetchTeams();
-  }, []);
-
+function App() {
   return (
-    <div>
-      <h1>Season Football League</h1>
-      <TeamTable teams={teams} />
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={MainPage} />
+        <Route exact path="/team-selection" component={TeamSelection} />
+        <Route path="/team/:teamId" component={TeamPage} />
+      </Switch>
+    </Router>
   );
-};
+}
 
-ReactDOM.render(<App />, document.getElementById('root'));
 export default App;
